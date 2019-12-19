@@ -7,6 +7,8 @@ if(POLICY CMP0054)
   cmake_policy(SET CMP0054 NEW)
 endif()
 
+message("rapidjson cmake binary dir ${CMAKE_BINARY_DIR}")
+
 SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
 
 PROJECT(RapidJSON CXX)
@@ -129,7 +131,7 @@ ELSEIF(WIN32)
     SET(_CMAKE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/cmake")
 ENDIF()
 SET(CMAKE_INSTALL_DIR "${_CMAKE_INSTALL_DIR}" CACHE PATH "The directory cmake files are installed in")
-
+message("rapidjson install dir  ${CMAKE_INSTALL_DIR}")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 if(RAPIDJSON_BUILD_DOC)
@@ -140,18 +142,18 @@ add_custom_target(travis_doc)
 add_custom_command(TARGET travis_doc
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/travis-doxygen.sh)
 
-if(RAPIDJSON_BUILD_EXAMPLES)
-    add_subdirectory(example)
-endif()
+# if(RAPIDJSON_BUILD_EXAMPLES)
+#     add_subdirectory(example)
+# endif()
 
-if(RAPIDJSON_BUILD_TESTS)
-    if(MSVC11)
-        # required for VS2012 due to missing support for variadic templates
-        add_definitions(-D_VARIADIC_MAX=10)
-    endif(MSVC11)
-    add_subdirectory(test)
-    include(CTest)
-endif()
+# if(RAPIDJSON_BUILD_TESTS)
+#     if(MSVC11)
+#         # required for VS2012 due to missing support for variadic templates
+#         add_definitions(-D_VARIADIC_MAX=10)
+#     endif(MSVC11)
+#     add_subdirectory(test)
+#     include(CTest)
+# endif()
 
 # pkg-config
 IF (UNIX OR CYGWIN)
